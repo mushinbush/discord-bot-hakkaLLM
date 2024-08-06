@@ -1,9 +1,0 @@
-{
-    "model": "gemini-1.5-flash",
-    "api-key" : "YOUR_GEMINI_API_KEY",
-    "token": "YOUR_DISCORD_BOT_TOKEN",
-    "trigger": "AI,",
-    "cleantrig": "cleanAI",
-    "sysprompt": "You are a helpful assistant.",
-    "sysfstmsg": "Hello! What can I help you?"
-}
