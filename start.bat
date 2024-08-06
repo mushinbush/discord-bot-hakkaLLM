@@ -1,7 +1,7 @@
 @echo off
 
 cd "%~dp0"
-title Gemini Discord Bot
+title LLM Discord Bot
 
 :: venv check
 if not exist "venv\" (
@@ -10,10 +10,10 @@ if not exist "venv\" (
     call .\venv\Scripts\activate.bat
     echo Installing dependencies from requirements.txt
     call pip install -r requirements.txt
-    call python discordbot_gemini.py
+    call python discordbot_hakka.py
     pause
 ) else (
     call .\venv\Scripts\activate.bat
-    call python discordbot_gemini.py
+    call python discordbot_hakka.py
     pause
 )

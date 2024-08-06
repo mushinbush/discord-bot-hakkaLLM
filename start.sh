@@ -8,8 +8,8 @@ if [ ! -d "venv" ]; then
     source venv/bin/activate
     echo "Installing dependencies from requirements.txt"
     pip install -r requirements.txt
-    python3 discordbot_gemini.py
+    python3 discordbot_hakka.py
 else
     source venv/bin/activate
-    python3 discordbot_gemini.py
+    python3 discordbot_hakka.py
 fi
