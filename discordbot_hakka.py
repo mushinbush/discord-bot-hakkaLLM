@@ -12,8 +12,8 @@ with open('config.yml', 'r', encoding='utf-8') as file:
 
 MODEL = config.get('model', 'gemini-1.5-flash')
 APIKEY = config.get('api-key')
-if APIKEY == "YOUR_GEMINI_API_KEY" or not APIKEY:
-    raise ValueError("Gemini API key is required in the config file")
+if APIKEY == "YOUR_API_KEY" or not APIKEY:
+    raise ValueError("API key is required in the config file")
 BOTTOKEN = config.get('token')
 if BOTTOKEN == "YOUR_DISCORD_BOT_TOKEN" or not BOTTOKEN:
     raise ValueError("Discord bot token is required in the config file")
@@ -29,7 +29,13 @@ activity = discord.CustomActivity(MODEL)
 client = discord.Client(intents=intents, activity=activity)
 
 # API Key
-os.environ['GEMINI_API_KEY'] = APIKEY
+if MODEL.startswith('gemini'):
+    os.environ['GEMINI_API_KEY'] = APIKEY
+    FMODEL = f'gemini/{MODEL}'
+elif MODEL.startswith('command'):
+    os.environ['COHERE_API_KEY'] = APIKEY
+    FMODEL = MODEL
+
 global history
 history = []
 
@@ -50,7 +56,7 @@ def historyInit():
 historyInit()
 
 def requestLLM(chat_prompt):
-    max_retries = 3  # Maximum retry
+    max_retries = 5  # Maximum retry
     retries = 0  # Current retry
     history.append({"role": "user", "content": chat_prompt})
     history_copy = history.copy()
@@ -58,7 +64,7 @@ def requestLLM(chat_prompt):
         try:
             start_time = time.time()
             response = completion(
-                model = f'gemini/{MODEL}', 
+                model = FMODEL, 
                 messages=history_copy
             )
             end_time = time.time()

@@ -1,5 +1,6 @@
-model: gemini-1.5-flash 
-api-key: YOUR_GEMINI_API_KEY
+# gemini-1.5-flash / command-r / command-r-plus
+model: gemini-1.5-flash
+api-key: YOUR_API_KEY
 token: YOUR_DISCORD_BOT_TOKEN
 trigger: AI,
 cleantrig: cleanAI
