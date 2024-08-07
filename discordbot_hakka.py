@@ -63,15 +63,11 @@ def requestLLM(chat_prompt):
     while retries < max_retries:
         try:
             start_time = time.time()
-            response = completion(
-                model = FMODEL, 
-                messages=history_copy
-            )
+            response = completion(model = FMODEL, messages=history_copy)
             end_time = time.time()
             elapsed_time = end_time - start_time
 
-            if response.choices[0].finish_reason == 'stop':
-                # print(response)
+            if response.choices[0].finish_reason == 'stop': # print(response)
                 reply = response.choices[0].message.content
                 print(f"Response: {reply}|Inference time = {round(elapsed_time, 2)}s")
                 history.append({"role": "assistant", "content": reply})
@@ -80,20 +76,19 @@ def requestLLM(chat_prompt):
                 print('Cannot connect to API, retrying')
         except Exception as e:
             retries += 1
-            print(f'API Error: {str(e)}')
+            print(f'API Error: {str(e)} - Retrying {retries}/{max_retries}')
             if retries == max_retries:
                 return 'API error: Retry limit exceeded.'
 
 
 @client.event
 async def on_message(message):
-    substring_to_remove = TRIG
     # Bot ignores itself
     if message.author == client.user:
         return
     # Check trigger
-    if message.content.startswith(substring_to_remove):
-        text_input = message.content[len(substring_to_remove):]
+    if message.content.startswith(TRIG):
+        text_input = message.content[len(TRIG):]
         print("===========================\nInput:" + text_input)
         await message.channel.send(requestLLM(text_input))
     # Check clear trigger
